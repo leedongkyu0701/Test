@@ -46,7 +46,7 @@ app.use(compress());
 
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://test-frontend-five-pearl.vercel.app",
   credentials: true,
 }));
 app.use(cookieParser());
