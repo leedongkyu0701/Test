@@ -65,7 +65,7 @@ exports.login = async (req, res, next) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: "/",
       domain: "example.com", // 배포된 도메인으로 설정
-      //www.example.com, api.example.com, shop.example.com)에서 쿠키를 접근할 수 있게 됨
+      // www.example.com, api.example.com, shop.example.com)에서 쿠키를 접근할 수 있게 됨
     });
     // 배포때는 secure: true 로 변경
 

@@ -49,8 +49,7 @@ app.use(compress());
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://test-frontend-git-main-leedongkyus-projects-c6361242.vercel.app",
-  credentials: true,
+  origin: "https://test-frontend-five-pearl.vercel.app"
 }));
 app.use(cookieParser());
 app.set("trust proxy", 1); // Render 등 프록시 환경에서는 필수
