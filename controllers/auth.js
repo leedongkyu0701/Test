@@ -56,7 +56,8 @@ exports.login = async (req, res, next) => {
       { expiresIn: "7d" }
     );
     // console.log(refreshToken + "리프레시 토큰 생성됨");
-    res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: false, sameSite: "lax", maxAge: 7*24*60*60*1000,path:'/' }); 
+    res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: "lax", maxAge: 7*24*60*60*1000,path:'/' }); 
+    // 배포때는 secure: true 로 변경
     // console.log("리프레시 토큰 쿠키 설정됨: " + refreshToken);
     user.refreshToken = refreshToken;
     await user.save();
@@ -73,7 +74,7 @@ exports.logout = async (req, res, next) => {
   if(refreshToken){
     await User.updateOne({ refreshToken: refreshToken }, { $set: { refreshToken: null } });
   }
-  res.clearCookie("refreshToken", { httpOnly: true, secure: false, sameSite: "lax", path: '/' });
+  res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: "lax", path: '/' });
   res.status(200).json({ message: "로그아웃 되었습니다." });
 };
 
