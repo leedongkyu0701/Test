@@ -53,6 +53,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(cookieParser());
+app.set("trust proxy", 1); // Render 등 프록시 환경에서는 필수
 app.use(upload.single('image')); 
 // app.use('/images', express.static('images')); // 이제 로컬에 이미지 저장하지 않음
 
