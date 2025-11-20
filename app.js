@@ -9,22 +9,20 @@ const compress = require('compression');
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
-
 const dotenv = require('dotenv');
+
 dotenv.config(); // .env 파일의 환경 변수 로드
+
+const {v2: cloudinary} = require('cloudinary');
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+}); 
 
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
    
-
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'images');
-    },
-    filename: (req, file, cb) => {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
-    }
-});
 
 const fileFilter = (req, file, cb) => {
     if (
@@ -38,6 +36,11 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
+const upload = multer({ // 메모리 스토리지에 파일 저장 => Cloudinary로 바로 업로드 가능
+    storage: multer.memoryStorage(),
+    fileFilter: fileFilter
+})
+
 // app.use(helmet());
 if (process.env.NODE_ENV === "development") {
 //   app.use(morgan("dev")); // 개발용
@@ -50,8 +53,8 @@ app.use(cors({
   credentials: true,
 }));
 app.use(cookieParser());
-app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
-app.use('/images', express.static('images'));
+app.use(upload.single('image')); 
+// app.use('/images', express.static('images')); // 이제 로컬에 이미지 저장하지 않음
 
 app.use('/shop', shopRoutes);
 app.use('/auth', authRoutes);
