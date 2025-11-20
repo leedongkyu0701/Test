@@ -49,7 +49,7 @@ app.use(compress());
 
 app.use(express.json());
 app.use(cors({
-  origin: "https://test-frontend-five-pearl.vercel.app",
+  origin: "https://test-frontend-git-main-leedongkyus-projects-c6361242.vercel.app",
   credentials: true,
 }));
 app.use(cookieParser());
